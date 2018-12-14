@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { ApolloProvider } from 'react-apollo';
+import AWSAppSyncClient from 'aws-appsync';
+import { Rehydrated } from 'aws-appsync-react';
 import './App.css';
+import ShowCitiesWithData from './components/ShowCities';
+import appSyncConfig from "./aws-exports";
+
+const client = new AWSAppSyncClient({
+  url: appSyncConfig.aws_appsync_graphqlEndpoint,
+  region: appSyncConfig.aws_appsync_region,
+  auth: {
+    type: appSyncConfig.aws_appsync_authenticationType,
+    apiKey: appSyncConfig.aws_appsync_apiKey,
+  }
+});
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <ShowCitiesWithData />
         </header>
       </div>
     );
   }
 }
 
-export default App;
+const WithProvider = () => (
+  <ApolloProvider client={client}>
+    <Rehydrated>
+      <App />
+    </Rehydrated>
+  </ApolloProvider>
+)
+
+export default WithProvider;
