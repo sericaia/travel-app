@@ -3,7 +3,8 @@ import { ApolloProvider } from 'react-apollo';
 import AWSAppSyncClient from 'aws-appsync';
 import { Rehydrated } from 'aws-appsync-react';
 import './App.css';
-import ShowCitiesWithData from './components/ShowCities';
+import CreateCity from './components/CreateCity';
+import ShowCities from './components/ShowCities';
 import appSyncConfig from "./aws-exports";
 
 const client = new AWSAppSyncClient({
@@ -20,7 +21,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <ShowCitiesWithData />
+          <CreateCity />
+          <p>-----------------</p>
+          <ShowCities />
         </header>
       </div>
     );
